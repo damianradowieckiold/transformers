@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	>
+<h:head>
+	<title><ui:insert name="title">Transformers - home</ui:insert></title>
+	<ui:param name="contextPath" value="#{request.contextPath}" />
+	<link href="#{contextPath}/res/css/main.css" rel="stylesheet"
+		type="text/css"></link>
+	<link rel="stylesheet" type="text/css"
+		href="https://fonts.googleapis.com/css?family=Audiowide"></link>
+</h:head>
+
+<h:body>
+	<h:panelGroup layout="block" id="container">
+		<ui:include src="templates/header.xhtml" />
+		<h:panelGroup layout="block" id="main">
+			<h:panelGroup layout="block" id="left" style="float: left">
+				<h2>TRANSFORMERS</h2>
+				<p>#{languagePropertiesMap['home.game_description']}</p>
+			</h:panelGroup>
+			<h:panelGroup layout="block" id="right" style="float: left">
+
+				<form action="#{contextPath}/login" id="loginButton" method="post">
+					<input class="buttons" type="submit"
+						value="#{languagePropertiesMap['home.login']}" /> <input
+						type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				</form>
+
+				<form action="#{contextPath}/registration" id="registrationButton"
+					method="post">
+					<input class="buttons" type="submit"
+						value="#{languagePropertiesMap['home.registration']}" />
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+				</form>
+
+
+			</h:panelGroup>
+			<!-- 		remember about clear:both -->
+		</h:panelGroup>
+	</h:panelGroup>
+
+</h:body>
+
+</html>

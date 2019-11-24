@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<ui:param name="contextPath" value="#{request.contextPath}" />
+	<script src="#{contextPath}/res/js/jquery-3.2.1.min.js"
+		type="text/javascript" />
+	<script src="#{contextPath}/res/js/languages.js" type="text/javascript" />
+</h:head>
+<h:body>
+	<h:panelGroup layout="block" id="logo">
+		<h:outputLink value="#{contextPath}/">TRANSFORMERS</h:outputLink>
+		<h:panelGroup layout="block">
+			<div id="sublogo">#{languagePropertiesMap['header.browser_game']}</div>
+			<div id="languagesBar">
+				<h:graphicImage id="polish_language" styleClass="languages" width="25" 
+					url="res/graphics/poland_flag.ico" />
+				<h:graphicImage id="spanish_language" styleClass="languages" width="25" 
+					url="res/graphics/spain_flag.ico" />
+				<h:graphicImage id="english_language" styleClass="languages" width="25" 
+					url="res/graphics/united_kingdom_flag.ico" />
+			</div>
+		</h:panelGroup>
+
+	</h:panelGroup>
+</h:body>
+</html>

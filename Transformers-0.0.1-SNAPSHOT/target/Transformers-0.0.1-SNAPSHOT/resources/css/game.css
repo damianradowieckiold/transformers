@@ -1,0 +1,67 @@
+#resourcesBar h2{
+	padding:5px;
+	margin-top:0px;
+	float:left;
+}
+
+#fleetBar{
+	clear:both;
+}
+
+#fleetBar h2{
+	padding:5px;
+	margin-top:0px;
+	float:left;
+}
+
+#fleetFactoryBar{
+	clear:both;
+}
+
+#fleetFactoryBar h2{
+	padding:5px;
+	margin-top:0px;
+	float:left;
+}
+
+#resourceFactoryBar{
+	clear:both;
+}
+
+#resourceFactoryBar h2{
+	padding:5px;
+	margin-top:0px;
+	float:left;
+}
+
+#resourceStorageBar{
+	clear:both;
+}
+
+#resourceStorageBar h2{
+	padding:5px;
+	margin-top:0px;
+	float:left;
+}
+
+.elements{
+	padding:10px;
+	float:left;
+	border-style: dashed;
+	border-width: 0px 2px 0px 0px;
+	border-color: black;
+}
+.elements:last-child{
+	border-width: 0px 0px 0px 0px;
+}
+
+div.elements > a{
+	display: block;
+}
+
+#container{
+	width: 1200px;
+	height: 2000px;
+	margin-left:auto;
+	margin-right:auto;
+}

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta name="_csrf" content="${_csrf.token}" />
+	<title><ui:insert name="title">Transformers - game</ui:insert></title>
+	<ui:param name="contextPath" value="#{request.contextPath}" />
+	<link href="#{contextPath}/res/css/main.css" rel="stylesheet"
+		type="text/css"></link>
+	<link rel="stylesheet" type="text/css"
+		href="https://fonts.googleapis.com/css?family=Audiowide"></link>
+	<link rel="stylesheet" type="text/css"
+		href="#{contextPath}/res/css/game.css" />
+	<script>
+		var fleetTypes;
+		var resourceTypes;
+	</script>
+	<script src="#{contextPath}/res/js/jquery-3.2.1.min.js"
+		type="text/javascript" />
+	<script src="#{contextPath}/res/js/overall.js" type="text/javascript" />
+	<script src="#{contextPath}/res/js/resources.js" type="text/javascript" />
+	<script src="#{contextPath}/res/js/fleet.js" type="text/javascript" />
+	<script src="#{contextPath}/res/js/attack.js" type="text/javascript" />
+	<script src="#{contextPath}/res/js/planet.js" type="text/javascript" />
+	<script src="#{contextPath}/res/js/fleetFactory.js"
+		type="text/javascript" />
+	<script src="#{contextPath}/res/js/resourceFactory.js"
+		type="text/javascript" />
+	<script src="#{contextPath}/res/js/resourceStorageFactory.js"
+		type="text/javascript" />
+
+
+</h:head>
+<h:body>
+	<h:panelGroup layout="block" id="container">
+		<ui:include src="templates/header.xhtml" />
+		<h:panelGroup layout="block" id="main">
+
+			<h:panelGrid columns="4">
+				<ui:repeat var="planet" value="#{planets}">
+					<h:panelGroup layout="block">
+						<h:graphicImage styleClass="pointer" width="50px"
+							url="res/graphics/planet.png"
+							onclick="return changePlanet(#{planet.id})" height="50px" />
+						<h:outputText value="#{planet.name}" />
+					</h:panelGroup>
+				</ui:repeat>
+			</h:panelGrid>
+			<h:panelGroup layout="block" id="resourcesBar">
+				<h2>#{languagePropertiesMap['gamePage.resources']}:</h2>
+				<ui:repeat value="#{resources}" var="r">
+					<h:panelGroup layout="block" class="elements">
+						<div>#{r.typeName}</div>
+						<div id="#{r.typeName}">#{r.amount}</div>
+					</h:panelGroup>
+				</ui:repeat>
+			</h:panelGroup>
+			<br />
+			<h:panelGroup layout="block" id="fleetBar">
+				<h2>#{languagePropertiesMap['gamePage.fleet']}:</h2>
+				<h:panelGrid columns="4">
+					<ui:repeat value="#{fleets}" var="f">
+						<h:panelGroup layout="block" class="elements">
+							<div>#{f.typeName}</div>
+							<div id="#{f.typeName}">#{f.amount}</div>
+						</h:panelGroup>
+					</ui:repeat>
+				</h:panelGrid>
+			</h:panelGroup>
+			<br />
+			<h:panelGroup layout="block" id="resourceFactoryBar">
+				<h2>#{languagePropertiesMap['gamePage.resourceFactories']}:</h2>
+				<h:panelGrid columns="4">
+					<ui:repeat value="#{resourceFactories}" var="rf">
+						<h:panelGroup layout="block" class="elements">
+							<div>#{rf.resourceTypeName}</div>
+							<div id="#{rf.resourceTypeName}ResourceFactory">#{rf.level}</div>
+						</h:panelGroup>
+					</ui:repeat>
+				</h:panelGrid>
+			</h:panelGroup>
+			<br />
+			<h:panelGroup layout="block" id="fleetFactoryBar">
+				<h2>#{languagePropertiesMap['gamePage.fleetFactories']}:</h2>
+				<h:panelGrid columns="4">
+					<ui:repeat value="#{fleetFactories}" var="ff">
+						<h:panelGroup layout="block" class="elements">
+							<div>#{ff.fleetTypeName}</div>
+							<div id="#{ff.fleetTypeName}FleetFactory">#{ff.level}</div>
+						</h:panelGroup>
+					</ui:repeat>
+				</h:panelGrid>
+			</h:panelGroup>
+			<br />
+			<h:panelGroup layout="block" id="resourceStorageBar">
+				<h2>#{languagePropertiesMap['gamePage.resourceStorages']}:</h2>
+				<h:panelGrid columns="4">
+					<ui:repeat value="#{resourceStorages}" var="rs">
+						<h:panelGroup layout="block" class="elements">
+							<div>#{rs.resourceTypeName}</div>
+							<div id="#{rs.resourceTypeName}ResourceStorage">#{rs.maximumLoad}</div>
+						</h:panelGroup>
+					</ui:repeat>
+				</h:panelGrid>
+			</h:panelGroup>
+			<br />
+			<h:panelGroup layout="block">
+				<h2>#{languagePropertiesMap['gamePage.fleetBuilding']}</h2>
+				<ui:repeat var="f" value="#{fleets}">
+					<h:outputText value="#{f.typeName}" />
+					<input type="number" min="0" id="#{f.typeName}BuildHowMany"
+						max="9999" value="0" />
+				</ui:repeat>
+				<button class="buttons" id="buildFleet">#{languagePropertiesMap['gamePage.buildFleet']}</button>
+
+			</h:panelGroup>
+
+		</h:panelGroup>
+		<br />
+		<h:panelGroup layout="block">
+			<h2>#{languagePropertiesMap['gamePage.buildingQueue']}</h2>
+			<table id="fleetBuildingsTable">
+				<tr>
+					<th>#{languagePropertiesMap['gamePage.buildingType']}:</th>
+					<th>#{languagePropertiesMap['gamePage.timeToFinish']}:</th>
+				</tr>
+			</table>
+		</h:panelGroup>
+		<br />
+		<h:panelGroup layout="block">
+			<h2>#{languagePropertiesMap['gamePage.fleetFactoryBuilding']}</h2>
+			<ui:repeat var="ff" value="#{fleetFactories}">
+				<h:outputText value="#{ff.fleetTypeName}" />
+				<input type="number" min="0"
+					id="fleetFactory#{ff.fleetTypeName}BuildHowMany" max="9999"
+					value="0" />
+			</ui:repeat>
+			<button class="buttons" id="buildFleetFactory">#{languagePropertiesMap['gamePage.buildFleetFactory']}</button>
+		</h:panelGroup>
+		<br />
+		<h:panelGroup layout="block">
+			<h2>#{languagePropertiesMap['gamePage.buildingQueue']}</h2>
+			<table id="fleetFactoryBuildingsTable">
+				<tr>
+					<th>#{languagePropertiesMap['gamePage.buildingType']}:</th>
+					<th>#{languagePropertiesMap['gamePage.timeToFinish']}:</th>
+				</tr>
+			</table>
+		</h:panelGroup>
+		<br />
+		<h:panelGroup layout="block">
+			<h2>#{languagePropertiesMap['gamePage.resourceFactoryBuilding']}</h2>
+			<ui:repeat var="r" value="#{resources}">
+				<h:outputText value="#{r.typeName}" />
+				<input type="number" min="0"
+					id="#{r.typeName}ResourceFactoryBuildHowMany" max="9999" value="0" />
+			</ui:repeat>
+			<button class="buttons" id="buildResourceFactory">#{languagePropertiesMap['gamePage.buildResourceFactory']}</button>
+		</h:panelGroup>
+		<br />
+		<h:panelGroup layout="block">
+			<h2>#{languagePropertiesMap['gamePage.resourceFactoryBuildingQueue']}</h2>
+			<table id="resourceFactoryBuildingsTable">
+				<tr>
+					<th>#{languagePropertiesMap['gamePage.buildingType']}:</th>
+					<th>#{languagePropertiesMap['gamePage.timeToFinish']}:</th>
+				</tr>
+			</table>
+		</h:panelGroup>
+		<br />
+		<h:panelGroup layout="block">
+			<h2>#{languagePropertiesMap['gamePage.resourceStorageUpgrading']}</h2>
+			<ui:repeat var="r" value="#{resources}">
+				<h:outputText value="#{r.typeName}" />
+				<input type="number" min="0"
+					id="#{r.typeName}ResourceStorageFactoryBuildHowMany" max="9999"
+					value="0" />
+			</ui:repeat>
+			<button class="buttons" id="buildResourceStorage">#{languagePropertiesMap['gamePage.upgradeResourceStorage']}</button>
+		</h:panelGroup>
+		<br />
+		<h:panelGroup layout="block">
+			<h2>#{languagePropertiesMap['gamePage.resourceStorageUpgradingQueue']}</h2>
+			<table id="resourceStorageBuildingsTable">
+				<tr>
+					<th>#{languagePropertiesMap['gamePage.buildingType']}:</th>
+					<th>#{languagePropertiesMap['gamePage.timeToFinish']}:</th>
+				</tr>
+			</table>
+		</h:panelGroup>
+		<br />
+		<h2>#{languagePropertiesMap['gamePage.attack']}:</h2>
+		<h:panelGroup layout="block">
+			<ui:repeat var="f" value="#{fleets}">
+				#{f.typeName}<input type="number" min="0" max="#{f.amount}"
+					id="#{f.typeName}ToAttack" value="0" />
+			</ui:repeat>
+			#{languagePropertiesMap['gamePage.planet']}:
+			<select id="planetToAttack">
+				<ui:repeat var="planet" value="#{otherUsersPlanets}">
+					<option value="#{planet.id}">#{planet.name}
+						(#{planet.username})</option>
+				</ui:repeat>
+			</select>
+			<button class="buttons" id="fleetAttack">#{languagePropertiesMap['gamePage.attacking']}</button>
+		</h:panelGroup>
+		<br />
+		<h:panelGroup layout="block">
+			<h2>#{languagePropertiesMap['gamePage.attackingQueue']}</h2>
+			<table id="attacksTable">
+				<tr>
+					<th>#{languagePropertiesMap['gamePage.attackedPlanet']}:</th>
+					<th>#{languagePropertiesMap['gamePage.attackingPlanet']}:</th>
+					<th>#{languagePropertiesMap['gamePage.attackTime']}:</th>
+				</tr>
+			</table>
+		</h:panelGroup>
+		<br />
+		<br />
+		<br />
+		<br />
+		<form action="#{contextPath}/logout" method="post">
+			<input class="buttons" id="logoutButton" type="submit"
+				value="#{languagePropertiesMap['gamePage.logout']}" /> <input
+				id="hidden_csrf" type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+		</form>
+	</h:panelGroup>
+
+</h:body>
+
+</html>
+

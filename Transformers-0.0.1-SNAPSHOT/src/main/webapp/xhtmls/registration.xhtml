@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<title><ui:insert name="title">Transformers - registration</ui:insert></title>
+	<ui:param name="contextPath" value="#{request.contextPath}" />
+	<link href="#{contextPath}/res/css/main.css" rel="stylesheet"
+		type="text/css"></link>
+	<link rel="stylesheet" type="text/css"
+		href="https://fonts.googleapis.com/css?family=Audiowide"></link>
+	<script src="#{contextPath}/res/js/jquery-3.2.1.min.js"
+		type="text/javascript" />
+	<script src="#{contextPath}/res/js/registrationValidation.js"
+		type="text/javascript" />
+</h:head>
+
+<h:body>
+	<div id="container">
+		<ui:include src="templates/header.xhtml" />
+		<div id="main">
+			<form id="registrationForm" action="#{contextPath}/registerUser"
+				method="post">
+				<h2>#{languagePropertiesMap['registrationPage.registration']}</h2>
+				<div id="usernameBox">
+					#{languagePropertiesMap['registrationPage.loginName']}: <input id="loginInputId" type="text" name="username"
+						value='' />
+					<div id="userExists" class="validationError">${ERROR_MESSAGE}</div>
+					<div id="invalidLogin" class="validationError">&nbsp;</div>
+				</div>
+				<div id="passwordBox">
+					#{languagePropertiesMap['registrationPage.password']}: <input id="passwordInputId" type="password"
+						name="password" />
+					<div id="invalidPassword" class="validationError">&nbsp;</div>
+				</div>
+				<div id="confirmPasswordBox">
+					#{languagePropertiesMap['registrationPage.confirmPassword']}: <input id="confirmPasswordId" type="password"
+						name="confirmpassword" />
+					<div id="invalidConfirmPassword" class="validationError">&nbsp;</div>
+				</div>
+				<br /> 
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" /> 
+				<input id="registerButtonId"
+					type="submit" value="#{languagePropertiesMap['registrationPage.register']}" />
+			</form>
+		</div>
+	</div>
+
+</h:body>
+
+</html>

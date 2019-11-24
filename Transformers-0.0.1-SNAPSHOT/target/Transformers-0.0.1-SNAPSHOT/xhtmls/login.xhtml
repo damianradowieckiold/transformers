@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<title><ui:insert name="title">Transformers - login</ui:insert></title>
+	<ui:param name="contextPath" value="#{request.contextPath}" />
+	<link href="#{contextPath}/res/css/main.css" rel="stylesheet" type="text/css"></link>
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Audiowide"></link>
+</h:head>
+
+<h:body onload="document.getElementById('usernameInput').focus()">
+	<h:panelGroup layout="block" id="container">
+		<ui:include src="templates/header.xhtml" />
+		<h:panelGroup id="main">
+			<h2 id="header">#{languagePropertiesMap['loginPage.header']}</h2>
+			<br />
+			<form id="loginForm" action="#{contextPath}/j_spring_security_check" method="post">
+				<h:panelGroup layout="block">#{languagePropertiesMap['loginPage.loginName']}: <input type="text" id="usernameInput" name="username" value=''/></h:panelGroup>
+				<br /><br />
+				<h:panelGroup layout="block">#{languagePropertiesMap['loginPage.password']}: <input type="password" id="passwordInput" name="password"/></h:panelGroup>
+				<br /><br />
+				<input class="buttons" id="submitButton" type="submit" name="submit" value="#{languagePropertiesMap['loginPage.login']}" />
+				<br />
+				<h:panelGroup layout="block" rendered="#{param.error != null}" styleClass="errorMessage">#{languagePropertiesMap['loginPage.loginError']}.</h:panelGroup>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			</form>
+		</h:panelGroup>
+	</h:panelGroup>
+
+</h:body>
+
+</html>
